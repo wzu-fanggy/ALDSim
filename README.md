@@ -34,8 +34,7 @@ under the name **原子层沉积多尺度模拟软件 (ALDSim) V1.0**:
 ├── solve_linear.cpp / solve_linear.h   Modified linear solver (bounds checks)
 ├── aldsim-python/                      ALDSim Python desktop edition (PyQt5 GUI)
 ├── examples/ald-ZnS/                   Input files for the ZnS ALD simulations
-│   ├── ald-ZnS_300K … ald-ZnS_500K     One directory per temperature
-│   └── calibration_summary.md
+│   └── ald-ZnS_300K … ald-ZnS_500K     One directory per temperature
 ├── MAKE/, Makefile*, STUBS/, build_serial.sh, build_mpi.sh
 └── *.cpp / *.h                         SPPARKS core sources
 ```
@@ -80,16 +79,6 @@ and the SPPARKS paper:
 - S. J. Plimpton, C. Bystrom, and S. P. Webb, "SPPARKS: Stochastic Parallel
   PARticle Kinetic Simulator," available at
   http://www.cs.sandia.gov/~sjplimp/spparks.html.
-
-## Software registration
-
-ALDSim (software name: 原子层沉积多尺度模拟软件, Multiscale Simulation
-Software for Atomic Layer Deposition, V1.0) has been registered with the China
-Copyright Protection Center:
-
-- Copyright owner: Wenzhou University
-- Registration no.: 2026SR0404643
-- Registration date: March 9, 2026
 
 ## License
 
