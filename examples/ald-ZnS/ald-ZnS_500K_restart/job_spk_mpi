@@ -1,0 +1,53 @@
+#!/bin/bash
+#SBATCH --job-name=ALD-MPI
+#SBATCH --partition=main
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=16G
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+
+set -euo pipefail
+
+# ========= Intel 环境（MPI 需要；不因初始化失败而中断作业）=========
+set +u
+if source /data/software/intel/oneapi/setvars.sh >/dev/null 2>&1; then
+    echo ">>> Intel oneAPI 环境加载成功"
+else
+    echo "!!! 警告: Intel oneAPI setvars 返回非零（可能部分组件未初始化），继续运行"
+fi
+set -u
+
+# ========= 线程控制（关键）=========
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+export exe="/data/home/wzu24gsz/ALD/spparks-ALD-master/spk_mpi"
+
+# 优先选择校准输入：in_300_calibrated.ald / in_325_calibrated.ald ...
+INFILE=$(ls in_*_calibrated.ald 2>/dev/null | head -1 || true)
+if [ -z "$INFILE" ]; then
+  INFILE=$(ls in_*.ald 2>/dev/null | head -1 || true)
+fi
+if [ -z "$INFILE" ]; then
+  INFILE="in.ald"
+fi
+
+echo "======================================"
+echo "Job started at: $(date)"
+echo "Working dir: $(pwd)"
+echo "Input file: $INFILE"
+echo "Executable: $exe"
+echo "MPI tasks: $SLURM_NTASKS"
+echo "======================================"
+
+if [ ! -x "$exe" ]; then
+  echo "ERROR: $exe not found or not executable"
+  exit 1
+fi
+
+# ========= 运行 SPPARKS（MPI）=========
+srun --mpi=pmi2 --cpu-bind=cores "$exe" -in "$INFILE"
+
+echo "Job finished at: $(date)"

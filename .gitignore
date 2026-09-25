@@ -1,0 +1,25 @@
+# Build artifacts
+Obj_serial/
+Obj_mpi/
+spk_serial
+spk_mpi
+*.o
+*.a
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+tmp_pylib/
+
+# ALDSim Python desktop edition (runtime artifacts)
+aldsim-python/data/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db

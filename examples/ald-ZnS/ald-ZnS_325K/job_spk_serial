@@ -1,0 +1,38 @@
+#!/bin/bash
+#SBATCH --job-name=ald-ZnS_325K
+#SBATCH --partition=main
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --time=120:00:00
+
+set -euo pipefail
+
+export exe="/data/home/wzu24gsz/ALD/spparks-ALD-master/spk_serial"
+
+# 优先选择校准输入：in_300_calibrated.ald / in_325_calibrated.ald ...
+INFILE=$(ls in_*_calibrated.ald 2>/dev/null | head -1)
+if [ -z "$INFILE" ]; then
+  INFILE=$(ls in_*.ald 2>/dev/null | head -1)
+fi
+if [ -z "$INFILE" ]; then
+  INFILE="in.ald"
+fi
+
+echo "======================================"
+echo "Job started at: $(date)"
+echo "Working dir: $(pwd)"
+echo "Input file: $INFILE"
+echo "Executable: $exe"
+echo "======================================"
+
+if [ ! -x "$exe" ]; then
+  echo "ERROR: $exe not found or not executable"
+  exit 1
+fi
+
+$exe -in "$INFILE"
+
+echo "Job finished at: $(date)"

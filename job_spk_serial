@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name=ald_al2o3
+#SBATCH --partition=main
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --time=120:00:00
+
+export exe="/data/home/wzu24gsz/ALD/spparks-ALD-master/spk_serial"
+
+# 自动选择本目录的输入文件：in_300.ald / in_325.ald ...
+INFILE=$(ls in_*.ald 2>/dev/null | head -1)
+[ -z "$INFILE" ] && INFILE="in.ald"
+echo "Input file: $INFILE"
+$exe -in "$INFILE"
