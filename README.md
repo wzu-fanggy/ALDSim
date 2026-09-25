@@ -25,6 +25,23 @@ under the name **原子层沉积多尺度模拟软件 (ALDSim) V1.0**:
 | Registration no. | 2026SR0404643 |
 | Registration date | March 9, 2026 |
 
+## Relationship to SPPARKS
+
+ALDSim is built on the open-source
+[SPPARKS](http://www.cs.sandia.gov/~sjplimp/spparks.html) framework
+(Stochastic Parallel PARticle Kinetic Simulator, developed by Steve Plimpton
+and co-workers at Sandia National Laboratories, distributed under the GNU
+General Public License). The repository intentionally keeps the complete
+SPPARKS source tree so that the code builds as-is and the results reported in
+the manuscript can be reproduced directly. Files in this repository fall into
+three categories:
+
+| Category | Files | Notes |
+|---|---|---|
+| SPPARKS framework, unmodified | `spparks.cpp`, `app.cpp`, `solve.cpp`, `input.cpp`, `domain.cpp`, `lattice.cpp`, `dump*.cpp`, `random_*.cpp`, `region*.cpp`, `comm_lattice.cpp`, `MAKE/`, `STUBS/`, etc. | Copyright (2008) Sandia Corporation; distributed under the GNU General Public License (see `LICENSE`). Original Sandia copyright headers are retained in every source file. |
+| SPPARKS files modified by us | `app_ald.cpp` / `app_ald.h`, `solve_linear.cpp` / `solve_linear.h` | Bug fixes and mask/solver state synchronization required by the ZnS model (out-of-bounds access protection and `track_msite()` mask synchronization). |
+| ALDSim-specific additions | `app_ald_zns.cpp` / `app_ald_zns.h` — ZnS ALD application (`app_style ald/zns`); `diag_ald_zns.cpp` / `diag_ald_zns.h` — species/mass diagnostics; `examples/ald-ZnS/` — input files for all simulated temperatures; `aldsim-python/` — the registered desktop edition | Developed by the authors; released under the same GPL v3 license as SPPARKS. |
+
 ## Contents
 
 ```
